@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Hello <%= data.Profile.fullName %></h1>
+<h3>Here's your detail account:</h3>
+<img src="<%= data.Profile.image %>" alt="">
+<table border="1">
+    <tr>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Address</th>
+        <th>Role</th>
+    </tr>
+    <tr>
+        <td><%= data.Profile.fullName %></td>
+        <td><%= data.email %></td>
+        <td><%= data.Profile.phoneNumber %></td>
+        <td><%= data.Profile.address %></td>
+        <td><%= data.role %></td>
+    </tr>
+</table>
+</body>
+</html>

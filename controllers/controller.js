@@ -11,6 +11,18 @@ class Controller {
       res.send(error);
     }
   }
+  static async showProfile(req, res) {
+    try {
+      console.log(req.session.userId);
+      let data = await User.findByPk(req.session.userId, {
+        include: Profile,
+      });
+
+      res.render("profile", { data });
+    } catch (error) {
+      res.send(error);
+    }
+  }
   //=============================Buyer Page===============================
   static async baseBuyer(req, res) {
     try {
@@ -107,6 +119,7 @@ class Controller {
       res.send(error);
     }
   }
+
   static async getProduct(req, res) {
     try {
       res.render(`formAddProduct`, { usId: req.session.userId });
@@ -132,13 +145,18 @@ class Controller {
   static async delProduct(req, res) {
     try {
       const { id } = req.params;
-      await Product.findByPk(id);
-      await Product.destroy({
-        where: {
-          id,
-        },
-      });
-      res.redirect(`/seller/${req.session.userId}`);
+      Product.findByPk(id)
+        .then((product) => {
+          if (!product) {
+            throw new Error("Product not found");
+          }
+          return Product.destroy({
+            where: { id },
+          });
+        })
+        .then(() => {
+          res.redirect(`/seller/${req.session.userId}`);
+        });
     } catch (error) {
       res.send(error);
     }
