@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Produk</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
+    .navbar-brand { font-weight: 700; }
+    .form-card { border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.08); border: none; }
+    .form-label { font-size: 13px; font-weight: 600; color: #495057; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-control { border-radius: 10px; padding: 10px 14px; font-size: 15px; border: 1.5px solid #dee2e6; }
+    .form-control:focus { border-color: #212529; box-shadow: 0 0 0 3px rgba(33,37,41,0.1); }
+    .input-group-text { border-radius: 10px 0 0 10px; background-color: #f8f9fa; border: 1.5px solid #dee2e6; border-right: none; color: #6c757d; font-size: 15px; }
+    .input-group .form-control { border-radius: 0 10px 10px 0; border-left: none; }
+    .preview-box { width: 100%; height: 180px; border-radius: 10px; border: 2px dashed #dee2e6; display: flex; align-items: center; justify-content: center; background: #f8f9fa; overflow: hidden; transition: border-color 0.2s; }
+    .preview-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+    .preview-placeholder { text-align: center; color: #adb5bd; display: none; }
+    .preview-placeholder i { font-size: 36px; display: block; margin-bottom: 6px; }
+    .btn-submit { border-radius: 10px; padding: 12px; font-weight: 600; font-size: 15px; }
+    .btn-cancel { border-radius: 10px; padding: 12px; font-weight: 600; font-size: 15px; }
+    .section-title { font-size: 22px; font-weight: 700; }
+    .edit-badge { font-size: 12px; padding: 4px 12px; border-radius: 20px; vertical-align: middle; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark px-4 py-3 mb-4">
+  <span class="navbar-brand">
+    <i class="bi bi-shop me-2"></i>Seller Dashboard
+  </span>
+  <div class="ms-auto">
+    <a href="/seller/<%= usId %>" class="btn btn-outline-light btn-sm">
+      <i class="bi bi-arrow-left me-1"></i>Kembali
+    </a>
+  </div>
+</nav>
+
+<div class="container pb-5" style="max-width: 600px;">
+
+  <div class="mb-4">
+    <h1 class="section-title mb-1">
+      Edit Produk
+      <span class="badge bg-warning-subtle text-warning edit-badge ms-2">
+        <i class="bi bi-pencil me-1"></i> Edit
+      </span>
+    </h1>
+
+  </div>
+
+  <div class="card form-card p-4">
+    <form action="/seller/<%= usId %>/edtProduct/<%= data.id %>" method="POST">
+
+      <!-- Nama Produk -->
+      <div class="mb-4">
+        <label class="form-label">Nama Produk</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-tag"></i></span>
+          <input
+            type="text"
+            name="name"
+            class="form-control"
+            value="<%= data.name %>"
+            placeholder="Nama produk"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Harga</label>
+        <div class="input-group">
+          <span class="input-group-text">Rp</span>
+          <input
+            type="number"
+            name="price"
+            class="form-control"
+            value="<%= data.price %>"
+            placeholder="0"
+            min="0"
+            required
+          >
+        </div>
+      </div>
+
+   
+      <div class="mb-4">
+        <label class="form-label">Stok</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-boxes"></i></span>
+          <input
+            type="number"
+            name="stock"
+            class="form-control"
+            value="<%= data.stock %>"
+            placeholder="0"
+            min="0"
+            required
+          >
+        </div>
+      </div>
+
+    
+      <div class="mb-4">
+        <label class="form-label">URL Gambar</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="bi bi-image"></i></span>
+          <input
+            type="text"
+            name="imageUrl"
+            id="imageUrlInput"
+            class="form-control"
+            value="<%= data.imageUrl %>"
+            placeholder="https://example.com/gambar.jpg"
+          >
+        </div>
+     
+      </div>
+
+    
+      <div class="row g-2 mt-4">
+        <div class="col-6">
+          <a href="/seller/<%= usId %>" class="btn btn-outline-secondary btn-cancel w-100">
+            Batal
+          </a>
+        </div>
+        <div class="col-6">
+          <button type="submit" class="btn btn-dark btn-submit w-100">
+            <i class="bi bi-floppy me-2"></i>Simpan Perubahan
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

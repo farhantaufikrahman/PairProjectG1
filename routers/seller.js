@@ -20,7 +20,9 @@ router.use(function (req, res, next) {
   }
 });
 
+
 router.get("/:usId", Controller.baseSeller);
+router.get("/:usId/showProfile", Controller.showProfile);
 router.get("/:usId/addProduct", Controller.getProduct);
 router.post("/:usId/addProduct", Controller.addProduct);
 router.get("/:usId/edtProduct/:id", Controller.formEdit);
