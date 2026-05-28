@@ -16,19 +16,26 @@ class Controller {
   }
   static async baseBuyer(req, res) {
     try {
-    const { search } = req.query;
-    
-    let product = await Product.searchProducts(search);
-
-
-      let user = await User.findAll({where: { role: 'buyer'}})
-      res.render("baseBuyer", {product, user, buyerId: req.query.buyerId, formatRupiah, search});
+       console.log("session userId:", req.session.userId);
+      let product = await Product.findAll({
+      order: [['id', 'ASC']] 
+    });
+      const { search } = req.query;
+      if (search) {
+        product = await Product.searchProducts(search);
+      }
+      let user = await User.findAll({ where: { role: "buyer" } });
+      res.render("baseBuyer", {
+        product,
+        user,
+        buyerId: req.session.userId,
+        formatRupiah,
+        search,
+      });
     } catch (error) {
       res.send(error);
     }
   }
-
-
 
 static async showCart(req, res) {
   try {
@@ -119,16 +126,120 @@ static async postCart(req, res) {
 }
 
 
+static async checkout(req, res) {
+  try {
+    const buyerId = req.session.userId;
+
+    const carts = await Cart.findAll({
+      where: { buyerId, quantity: { [Op.gt]: 0 } },
+      include: [{ model: Product }],
+    });
+
+    if (carts.length === 0) return res.redirect(`/buyer/cart/${buyerId}`);
+
+    for (const item of carts) {
+      await Product.decrement('stock', {
+        by: item.quantity,
+        where: { id: item.productId },
+      });
+
+   
+      await item.destroy();
+    }
+
+    res.redirect(`/buyer/${buyerId}`);
+
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
+}
 
 
 
-  static async baseSeller(req, res) {
+
+
+
+
+
+
+
+
+static async baseSeller(req, res) {
     try {
-      res.render("baseSeller");
+      let data = await Product.findAll();
+      res.render("baseSeller", { data, usId: req.session.userId });
+    } catch (error) {
+      res.send(error);
+    }
+  }
+  static async getProduct(req, res) {
+    try {
+      res.render(`formAddProduct`, { usId: req.session.userId });
+    } catch (error) {
+      res.send(error);
+    }
+  }
+  static async addProduct(req, res) {
+    try {
+      const { name, price, stock, imageUrl } = req.body;
+      await Product.create({
+        name,
+        price,
+        stock,
+        imageUrl,
+        sellerId: req.session.userId,
+      });
+      res.redirect(`/seller/${req.session.userId}`);
+    } catch (error) {
+      res.send(error);
+    }
+  }
+  static async delProduct(req, res) {
+    try {
+      const { id } = req.params;
+      await Product.findByPk(id);
+      await Product.destroy({
+        where: {
+          id,
+        },
+      });
+      res.redirect(`/seller/${req.session.userId}`);
+    } catch (error) {
+      res.send(error);
+    }
+  }
+  static async formEdit(req, res) {
+    try {
+      const { id } = req.params;
+      let data = await Product.findByPk(id);
+      res.render(`formEditProduct`, {
+        data,
+        usId: req.session.userId,
+      });
+    } catch (error) {
+      res.send(error);
+    }
+  }
+  static async goEdit(req, res) {
+    try {
+      const { id } = req.params;
+      const { name, price, stock, imageUrl } = req.body;
+      await Product.update(
+        {
+          name,
+          price,
+          stock,
+          imageUrl,
+        },
+        { where: { id } },
+      );
+      res.redirect(`/seller/${req.session.userId}`);
     } catch (error) {
       res.send(error);
     }
   }
 }
+
 
 module.exports = Controller;
