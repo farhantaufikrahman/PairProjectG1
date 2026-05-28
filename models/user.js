@@ -17,9 +17,53 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      role: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Email Required!!",
+          },
+          notEmpty: {
+            msg: "Email Required!!",
+          },
+          isEmail: {
+            msg: "Email Format Required!!",
+          },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Password Required!",
+          },
+          notEmpty: {
+            msg: "Password Required!",
+          },
+          len: {
+            args: [6, 100],
+            msg: "Password Min 6 Characters!",
+          },
+          is: {
+            args: /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
+            msg: "Password Must Contains Uppercase, Number, and Unique Character!",
+          },
+        },
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Role Required!!",
+          },
+          notEmpty: {
+            msg: "Role Required!!",
+          },
+        },
+      },
     },
     {
       hooks: {

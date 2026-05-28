@@ -18,20 +18,29 @@ class UserController {
     try {
       const { email, password, fullName, phoneNumber, role, image, address } =
         req.body;
-
-      let data = await User.create({ email, password, role });
-
-      await Profile.create({
-        fullName,
-        phoneNumber,
-        address,
-        image,
-        userId: data.id,
-      });
-
+      await User.create(
+        {
+          email,
+          password,
+          role,
+          Profile: {
+            fullName,
+            phoneNumber,
+            address,
+            image,
+          },
+        },
+        {
+          include: [Profile],
+        },
+      );
       res.redirect("/");
     } catch (error) {
-      console.log(error);
+      if (error.name === "SequelizeValidationError") {
+        error = error.errors.map((el) => {
+          return el.message;
+        });
+      }
       res.send(error);
     }
   }
@@ -49,6 +58,7 @@ class UserController {
       let user = await User.findOne({
         where: { email },
       });
+
       if (user) {
         const isValidPW = bcrypt.compareSync(password, user.password);
         if (isValidPW) {

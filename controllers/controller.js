@@ -13,7 +13,6 @@ class Controller {
   }
   static async showProfile(req, res) {
     try {
-      console.log(req.session.userId);
       let data = await User.findByPk(req.session.userId, {
         include: Profile,
       });
@@ -26,7 +25,9 @@ class Controller {
   //=============================Buyer Page===============================
   static async baseBuyer(req, res) {
     try {
-      let product = await Product.findAll();
+      let product = await Product.findAll({
+        order: [["id", "ASC"]],
+      });
       const { search } = req.query;
       if (search) {
         product = await Product.searchProducts(search);
@@ -110,6 +111,33 @@ class Controller {
     }
   }
 
+  static async checkout(req, res) {
+    try {
+      const buyerId = req.session.userId;
+
+      const carts = await Cart.findAll({
+        where: { buyerId, quantity: { [Op.gt]: 0 } },
+        include: [{ model: Product }],
+      });
+
+      if (carts.length === 0) return res.redirect(`/buyer/cart/${buyerId}`);
+
+      for (const item of carts) {
+        await Product.decrement("stock", {
+          by: item.quantity,
+          where: { id: item.productId },
+        });
+
+        await item.destroy();
+      }
+
+      res.redirect(`/buyer/${buyerId}`);
+    } catch (error) {
+      console.log(error);
+      res.send(error.message);
+    }
+  }
+
   //====================Seller Page=====================================
   static async baseSeller(req, res) {
     try {
@@ -139,6 +167,11 @@ class Controller {
       });
       res.redirect(`/seller/${req.session.userId}`);
     } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        error = error.errors.map((el) => {
+          return el.message;
+        });
+      }
       res.send(error);
     }
   }
