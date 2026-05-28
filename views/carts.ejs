@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart</title>
+</head>
+<body>
+
+  <h1>Keranjang Belanja</h1>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Gambar</th>
+        <th>Nama</th>
+        <th>Stok</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Hapus</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (carts.length === 0) { %>
+        <tr><td colspan="6" style="text-align: center;">Keranjang kosong</td></tr>
+      <% } else { %>
+        <% carts.forEach(item => { %>
+        <tr>
+          <td><img src="<%= item.Product.imageUrl %>" width="80"></td>
+          <td><%= item.Product.name %></td>
+          <td><%= item.Product.stock %></td>
+          <td>
+            <form action="/buyer/cart/<%= buyerId %>" method="POST" style="display:inline">
+              <input type="hidden" name="productId" value="<%= item.Product.id %>">
+              <input type="hidden" name="action" value="decrement">
+              <button type="submit">-</button>
+            </form>
+
+            <span><%= item.quantity %></span>
+
+            <form action="/buyer/cart/<%= buyerId %>" method="POST" style="display:inline">
+              <input type="hidden" name="productId" value="<%= item.Product.id %>">
+              <input type="hidden" name="action" value="increment">
+              <button type="submit">+</button>
+            </form>
+          </td>
+         <td><%= formatRupiah(item.getCartSubtotal()) %></td>
+          <td>
+            <form action="/buyer/cart/<%= buyerId %>" method="POST">
+              <input type="hidden" name="productId" value="<%= item.Product.id %>">
+              <input type="hidden" name="action" value="delete">
+              <button type="submit">Hapus</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      <% } %>
+    </tbody>
+  </table>
+
+  <h3>Total: Rp <%= formatRupiah(total) %></h3>
+
+  <form action="/checkout" method="POST">
+    <input type="hidden" name="buyerId" value="<%= buyerId %>">
+    <button type="submit">Checkout</button>
+  </form>
+
+  <br>
+  <a href="/buyer?buyerId=<%= buyerId %>">Kembali</a>
+
+</body>
+</html>

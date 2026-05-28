@@ -7,5 +7,50 @@
 </head>
 <body>
     <h1>Buyer Page!!</h1>
+        <form action="" method="GET" style="margin-bottom: 20px;">
+        <input type="hidden" name="buyerId" value="<%= buyerId %>">
+        
+        <input 
+            type="text" 
+            name="search" 
+            placeholder="Cari nama produk..." 
+            value="<%= search || '' %>"
+            style="padding: 5px; width: 250px;"
+        >
+        <button type="submit" style="padding: 5px 10px;">Cari</button>
+        
+        
+        </form>
+    <table border="1">
+        <tr>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Stock</td>
+            <td>ImageURL</td>
+            <td>SellerId</td>
+            <td>Action</td>
+        </tr>
+        <tbody></tbody>
+        <% product.forEach(el => { %>
+            <tr>
+                <td><%= el.name %></td>
+                <td><%= formatRupiah(el.price) %></td>
+                <td><%= el.stock %></td>
+                <td><img src="<%= el.imageUrl %>" width="80" alt="produk"></td>
+                <td><%= el.sellerId %></td>
+                
+                <td>
+                    <form action="/buyer/cart/<%= buyerId %>" method="POST">
+                        <input type="hidden" name="productId" value="<%= el.id %>">
+                        <input type="hidden" name="action" value="addcart">
+                        <button>AddCart</button>
+                        </form>
+                
+                 
+                </td>
+            </tr>
+        <% }); %>
+        </tbody>
+    </table>
 </body>
 </html>
