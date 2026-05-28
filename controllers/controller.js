@@ -3,6 +3,13 @@ const { Op } = require("sequelize");
 const sequelize = require("sequelize");
 
 class Controller {
+  static async welcome(req, res) {
+    try {
+      res.render("welcome");
+    } catch (error) {
+      res.send(error);
+    }
+  }
   static async baseBuyer(req, res) {
     try {
       res.render("baseBuyer");
