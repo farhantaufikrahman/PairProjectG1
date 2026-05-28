@@ -40,26 +40,30 @@ static async logIn(req, res) {
       res.send(error);
     }
   }
-  static async validLogin(req, res, next) {
+ static async validLogin(req, res) {
     try {
-   
       const { email, password } = req.body;
-      await User.findOne({
+      let user = await User.findOne({
         where: { email },
-      }).then((user) => {
-        if (user) {
-          console.log("user");
-          const isValidPW = bcrypt.compareSync(password, user.password);
-          if (isValidPW) {
-              console.log("role:", user.role);
-            if (user.role === 'buyer') {
-                    return res.redirect(`/buyer?buyerId=${user.id}`);
-                } else if (user.role === 'seller') {
-                    return res.redirect('/seller');
-                }
-          }
-        }
       });
+      if (user) {
+        const isValidPW = bcrypt.compareSync(password, user.password);
+        if (isValidPW) {
+          req.session.userId = user.id;
+          req.session.role = user.role;
+          if (user.role === "seller") {
+            return res.redirect(`/seller/${user.id}`);
+          } else if (user.role === "buyer") {
+            return res.redirect(`/buyer/${user.id}`);
+          }
+        } else {
+          const error = `Invalid Password`;
+          return res.redirect(`/logIn?error=${error}`);
+        }
+      } else {
+        const error = `Invalid Email`;
+        return res.redirect(`/logIn?error=${error}`);
+      }
     } catch (error) {
       res.send(error);
     }
