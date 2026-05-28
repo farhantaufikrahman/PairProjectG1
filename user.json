@@ -1,0 +1,22 @@
+[
+  {
+    "email": "adminseller01@gmail.com",
+    "password": "adminseller01",
+    "role": "seller"
+  },
+  {
+    "email": "adminseller02@gmail.com",
+    "password": "adminseller02",
+    "role": "seller"
+  },
+  {
+    "email": "buyeracc01@gmail.com",
+    "password": "buyeracc01",
+    "role": "buyer"
+  },
+  {
+    "email": "buyeracc02@gmail.com",
+    "password": "buyeracc02",
+    "role": "buyer"
+  }
+]
