@@ -1,4 +1,5 @@
 "use strict";
+const { User } = require("./user")
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Profile extends Model {
@@ -20,10 +21,19 @@ module.exports = (sequelize, DataTypes) => {
       address: DataTypes.STRING,
       userId: DataTypes.INTEGER,
     },
+
+
+
+
+
     {
       sequelize,
       modelName: "Profile",
     },
+
   );
+  // Profile.addHook('beforeCreate', (userId) => {
+  //   userId.userId = User.id
+  // })
   return Profile;
 };
