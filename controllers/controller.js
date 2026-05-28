@@ -18,18 +18,8 @@ class Controller {
     try {
     const { search } = req.query;
     
-    let whereCondition = {};
+    let product = await Product.searchProducts(search);
 
-    if (search) {
-      whereCondition.name = {
-        [Op.iLike]: `%${search}%` 
-      
-      };
-    }
-      let product = await Product.findAll({
-      where: whereCondition,
-      order: [['name', 'ASC']]
-      });
 
       let user = await User.findAll({where: { role: 'buyer'}})
       res.render("baseBuyer", {product, user, buyerId: req.query.buyerId, formatRupiah, search});
@@ -127,6 +117,8 @@ static async postCart(req, res) {
     res.send(error);
   }
 }
+
+
 
 
 

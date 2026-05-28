@@ -59,10 +59,13 @@
 
   <h3>Total: Rp <%= formatRupiah(total) %></h3>
 
-  <form action="/checkout" method="POST">
-    <input type="hidden" name="buyerId" value="<%= buyerId %>">
-    <button type="submit">Checkout</button>
-  </form>
+<form action="/buyer/cart/checkout/<%= buyerId %>" method="POST" style="margin-top: 20px;">
+  
+  <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+     Konfirmasi & Checkout Belanjaan
+  </button>
+
+</form>
 
   <br>
   <a href="/buyer?buyerId=<%= buyerId %>">Kembali</a>
