@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Ayam Kampung",
+    "price": 50000,
+    "imageUrl": "https://media.istockphoto.com/id/1447419542/id/foto/psikolog-dan-psikoterapis-pekerja-perawatan-kesehatan-wanita-muda-berbicara-online-di.jpg?s=612x612&w=0&k=20&c=JadpM68RvJVqm7StPcvQsm8ykWXUu5PHIqmlTf9qj84=",
+    "stock": 30,
+    "sellerId":1
+  },
+  {
+    "name": "Ayam Pejantan",
+    "price": 35000,
+    "imageUrl": "https://media.istockphoto.com/id/1345513550/id/foto/stagflasi-meningkatnya-panah-inflasi-dan-penurunan-pendapatan-perusahaan-dan-pertumbuhan.jpg?s=612x612&w=0&k=20&c=_xdIy1MDjNFMkELebUUpXDV0qsiYizYdAxGAzooEdGQ=",
+    "stock": 45,
+    "sellerId":1
+  },
+  {
+    "name": "Ayam Negeri",
+    "price": 25000,
+    "imageUrl": "https://media.istockphoto.com/id/1436161845/id/foto/psikolog-dan-psikoterapis-pekerja-perawatan-kesehatan-wanita-muda-berbicara-online-di.jpg?s=612x612&w=0&k=20&c=XbcheBQxqIKgp09N08oYw45d4Y89CvSHXw_t02Jk4xc=",
+    "stock": 67,
+    "sellerId":1
+  },
+  {
+    "name": "Telur Ayam Kampung",
+    "price": 20000,
+    "imageUrl": "https://media.istockphoto.com/id/465499621/id/foto/statistik-negatif.jpg?s=612x612&w=0&k=20&c=gN0WENiuoIYa212LCRF2rc8r3ebUCqXDKWUnShAYomo=",
+    "stock": 70,
+    "sellerId":2
+  },
+  {
+    "name": "Telur Ayam Pejantan",
+    "price": 15000,
+    "imageUrl": "https://media.istockphoto.com/id/921731588/id/foto/komputer-laptop-dengan-tombol-toko-online-ilustrasi-3d.jpg?s=612x612&w=0&k=20&c=8rdIH5murO2zaBRocNC2nE_l19H8FE9MSvo3BCZYje8=",
+    "stock": 80,
+    "sellerId":2
+  },
+  {
+    "name": "Telur Ayam Negeri",
+    "price": 10000,
+    "imageUrl": "https://media.istockphoto.com/id/1412023457/id/vektor/asp-akronim-penyedia-layanan-aplikasi.jpg?s=612x612&w=0&k=20&c=HTVe3jW5BmINh1GQH2AUZbilh6OFchCBmILV78UmygE=",
+    "stock": 100,
+    "sellerId":2
+  }
+]
