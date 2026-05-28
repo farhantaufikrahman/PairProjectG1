@@ -22,6 +22,7 @@ router.use(function (req, res, next) {
 router.get("/:id", Controller.baseBuyer);
 router.get("/cart/:id", Controller.showCart);
 router.post("/cart/:id", Controller.postCart);
+router.get("/:id/showProfile", Controller.showProfile);
 router.post("/checkout", Controller.checkout);
 
 module.exports = router;
