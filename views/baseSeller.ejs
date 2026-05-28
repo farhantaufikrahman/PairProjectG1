@@ -7,5 +7,28 @@
 </head>
 <body>
     <h1>Seller Page!!</h1>
+    <a href="">Your Profil</a>
+    <a href="/seller/<%= usId %>/addProduct"><button>Add Products</button></a>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+        <% data.forEach(el => { %>
+            <tr>
+                <td><%= el.name %></td>
+                <td><%= el.price %></td>
+                <td><%= el.stock %></td>
+                <td><img src="<%= el.imageUrl %>" alt=""></td>
+                <td>
+                    <a href="/seller/<%= usId %>/edtProduct/<%= el.id %>"><button>Edit</button></a>
+                    <a href="/seller/<%= usId %>/delProduct/<%= el.id %>"><button>Delete</button></a>
+                </td>
+            </tr>
+            <% }) %>
+    </table>
 </body>
 </html>

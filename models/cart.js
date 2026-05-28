@@ -9,8 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Cart.hasMany(models.User, { foreignKey: "buyerId" });
-      Cart.hasMany(models.Product, { foreignKey: "productId" });
+      Cart.belongsTo(models.User, { foreignKey: "buyerId" });
+      Cart.belongsTo(models.Product, { foreignKey: "productId" });
+    }
+    getCartSubtotal() {
+      if (!this.Product) return 0;
+      return this.quantity * this.Product.price;
     }
   }
   Cart.init(
