@@ -4,13 +4,13 @@ const bcrypt = require("bcryptjs");
 class UserController {
   static async showRegister(req, res) {
     try {
+      const { errors } = req.query;
       let user = await User.findAll();
       let id = user.map((el) => {
         return el.id;
       });
-      res.render("register", { id });
+      res.render("register", { id, errors });
     } catch (error) {
-      console.log(error);
       res.send(error);
     }
   }
@@ -40,14 +40,15 @@ class UserController {
         error = error.errors.map((el) => {
           return el.message;
         });
+        res.redirect(`/register?errors=${error}`);
       }
       res.send(error);
     }
   }
   static async logIn(req, res) {
     try {
-      const { error } = req.query;
-      res.render("logIn", { error });
+      const { errors } = req.query;
+      res.render("logIn", { errors });
     } catch (error) {
       res.send(error);
     }
@@ -78,6 +79,12 @@ class UserController {
         return res.redirect(`/logIn?error=${error}`);
       }
     } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        error = error.errors.map((el) => {
+          return el.message;
+        });
+        res.redirect(`/logIn?errors=${error}`);
+      }
       res.send(error);
     }
   }
